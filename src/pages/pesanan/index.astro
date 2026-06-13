@@ -1,0 +1,56 @@
+---
+import AppLayout from '../../components/layout/AppLayout.astro'
+---
+
+<AppLayout title="Pesanan Saya">
+  <div class="max-w-4xl mx-auto px-4 md:px-8 py-8">
+    <h1 class="font-display text-3xl font-bold text-leaf-900 mb-8">Pesanan Saya</h1>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-6 overflow-x-auto">
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-mango-500 text-white shrink-0">
+        Semua
+      </button>
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white text-leaf-700 border border-leaf-200 shrink-0">
+        Diproses
+      </button>
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white text-leaf-700 border border-leaf-200 shrink-0">
+        Dikirim
+      </button>
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white text-leaf-700 border border-leaf-200 shrink-0">
+        Selesai
+      </button>
+      <button class="px-4 py-2 rounded-full text-sm font-medium bg-white text-leaf-700 border border-leaf-200 shrink-0">
+        Dibatalkan
+      </button>
+    </div>
+
+    <!-- Order Cards -->
+    <div class="space-y-4">
+      <a href="/pesanan/SM-2026-TEST1" class="block bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="font-mono text-sm font-medium text-leaf-900">SM-2026-TEST1</p>
+            <p class="text-xs text-leaf-700/50">12 Jun 2026</p>
+          </div>
+          <span class="px-3 py-1 bg-amber-50 text-amber-500 rounded-full text-xs font-semibold">
+            Diproses
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-leaf-50 rounded-lg flex items-center justify-center text-sm">🥭</div>
+          <div class="flex-1">
+            <p class="font-medium text-sm text-leaf-900">Mangga Gedong Gincu 2kg</p>
+            <p class="text-xs text-leaf-700/50">Pak Karso</p>
+          </div>
+          <span class="font-mono font-medium text-mango-500">Rp 87.100</span>
+        </div>
+      </a>
+
+      <div class="text-center py-12">
+        <p class="text-sm text-leaf-700/50">Hanya menampilkan pesanan contoh</p>
+      </div>
+    </div>
+  </div>
+</AppLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro'
+import { OTPInput } from '../../components/auth/OTPInput'
+---
+
+<BaseLayout title="Verifikasi OTP">
+  <div class="min-h-screen flex items-center justify-center py-12 px-4">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <a href="/" class="inline-flex items-center gap-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <span class="font-display font-bold text-2xl text-neutral-900">
+            Mangga<span class="text-primary-600">Ku</span>
+          </span>
+        </a>
+        <h1 class="mt-6 font-display text-3xl font-bold text-neutral-900">
+          Verifikasi Nomor HP
+        </h1>
+        <p class="mt-2 text-neutral-500">
+          Kami telah mengirim kode OTP ke nomor HP kamu
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-neutral-100 p-6 md:p-8">
+        <OTPInput client:load onSubmit={(otp) => {
+          window.location.href = '/marketplace'
+        }} />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

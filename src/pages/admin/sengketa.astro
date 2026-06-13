@@ -1,0 +1,52 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import { Badge } from '../../components/ui/badge'
+---
+
+<DashboardLayout title="Sengketa" role="admin">
+  <div class="space-y-4">
+    <h1 class="font-display text-2xl font-bold text-leaf-900">Sengketa Aktif</h1>
+
+    <div class="space-y-3">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="font-mono text-sm font-medium text-leaf-900">SM-2026-XYZ78</p>
+            <p class="text-xs text-leaf-700/50">12 Jun 2026</p>
+          </div>
+          <Badge className="bg-red-100 text-red-700">Aktif</Badge>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+          <div>
+            <span class="text-leaf-700/50">Pembeli</span>
+            <p class="font-medium text-leaf-900">Andi Pratama</p>
+          </div>
+          <div>
+            <span class="text-leaf-700/50">Penjual</span>
+            <p class="font-medium text-leaf-900">Pak Karso</p>
+          </div>
+        </div>
+
+        <div class="p-3 bg-leaf-50 rounded-xl mb-4">
+          <span class="text-xs text-leaf-700/50">Keluhan</span>
+          <p class="text-sm text-leaf-900 mt-1">Mangga yang diterima sudah busuk sebagian. Saya minta refund.</p>
+        </div>
+
+        <div class="flex gap-2">
+          <button class="px-4 py-2 bg-leaf-600 hover:bg-leaf-700 text-white text-sm font-semibold rounded-xl transition-colors">
+            Mediasi
+          </button>
+          <button class="px-4 py-2 border border-leaf-200 text-leaf-700 text-sm font-semibold rounded-xl hover:bg-leaf-50 transition-colors">
+            Hubungi Pembeli
+          </button>
+          <button class="px-4 py-2 border border-leaf-200 text-leaf-700 text-sm font-semibold rounded-xl hover:bg-leaf-50 transition-colors">
+            Hubungi Penjual
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

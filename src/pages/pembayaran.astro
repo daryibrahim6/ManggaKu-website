@@ -1,0 +1,130 @@
+---
+import MarketingLayout from '../components/layout/MarketingLayout.astro'
+---
+
+<MarketingLayout title="Pembayaran - ManggaKu" description="Selesaikan pembayaran pesanan Anda">
+  <div class="min-h-screen bg-neutral-50 pt-8 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-neutral-800">Pembayaran</h1>
+        <p class="text-neutral-500 mt-1">Selesaikan pembayaran pesanan Anda</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white rounded-2xl border border-neutral-100 p-6">
+            <h2 class="font-semibold text-neutral-800 mb-4">Metode Pembayaran</h2>
+            <div class="space-y-3">
+              <label class="flex items-center gap-3 p-4 border border-neutral-200 rounded-xl cursor-pointer hover:border-primary-300 transition-colors has-[:checked]:border-primary-500 has-[:checked]:bg-primary-50">
+                <input type="radio" name="payment" value="gopay" class="w-4 h-4 text-primary-600" checked />
+                <div class="flex-1">
+                  <p class="font-medium text-neutral-800">GoPay</p>
+                  <p class="text-sm text-neutral-500">Bayar via GoPay</p>
+                </div>
+              </label>
+              <label class="flex items-center gap-3 p-4 border border-neutral-200 rounded-xl cursor-pointer hover:border-primary-300 transition-colors has-[:checked]:border-primary-500 has-[:checked]:bg-primary-50">
+                <input type="radio" name="payment" value="transfer" class="w-4 h-4 text-primary-600" />
+                <div class="flex-1">
+                  <p class="font-medium text-neutral-800">Transfer Bank</p>
+                  <p class="text-sm text-neutral-500">BCA, Mandiri, BRI</p>
+                </div>
+              </label>
+              <label class="flex items-center gap-3 p-4 border border-neutral-200 rounded-xl cursor-pointer hover:border-primary-300 transition-colors has-[:checked]:border-primary-500 has-[:checked]:bg-primary-50">
+                <input type="radio" name="payment" value="cod" class="w-4 h-4 text-primary-600" />
+                <div class="flex-1">
+                  <p class="font-medium text-neutral-800">Bayar di Tempat (COD)</p>
+                  <p class="text-sm text-neutral-500">Bayar saat barang diterima</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-white rounded-2xl border border-neutral-100 p-6">
+            <h2 class="font-semibold text-neutral-800 mb-4">Ringkasan Pesanan</h2>
+            <div id="payment-items" class="space-y-0"></div>
+            <div class="border-t border-neutral-100 mt-4 pt-4 space-y-2">
+              <div class="flex justify-between text-sm">
+                <span class="text-neutral-500">Subtotal</span>
+                <span id="payment-subtotal" class="text-neutral-800">Rp 0</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-neutral-500">Biaya Platform (3%)</span>
+                <span id="payment-fee" class="text-neutral-800">Rp 0</span>
+              </div>
+              <div class="flex justify-between font-semibold text-lg border-t border-neutral-100 pt-2">
+                <span class="text-neutral-800">Total</span>
+                <span id="payment-total" class="text-primary-600">Rp 0</span>
+              </div>
+            </div>
+          </div>
+
+          <button id="pay-btn" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
+            Bayar Sekarang
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</MarketingLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    let pending: any = null
+
+    try {
+      const pendingData = localStorage.getItem('manggaku-pending-order')
+      pending = pendingData ? JSON.parse(pendingData) : null
+      if (!pending) {
+        window.location.href = '/keranjang'
+        return
+      }
+
+      const itemsContainer = document.getElementById('payment-items')
+      if (itemsContainer && pending.items) {
+        itemsContainer.innerHTML = pending.items.map((item: any) => `
+          <div class="flex items-center gap-3 py-3 border-b border-neutral-100 last:border-0">
+            <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg" />
+            <div class="flex-1">
+              <p class="text-sm font-medium text-neutral-800">${item.name}</p>
+              <p class="text-xs text-neutral-500">${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}</p>
+            </div>
+            <p class="text-sm font-semibold text-neutral-800">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</p>
+          </div>
+        `).join('')
+      }
+
+      const subtotalEl = document.getElementById('payment-subtotal')
+      const feeEl = document.getElementById('payment-fee')
+      const totalEl = document.getElementById('payment-total')
+      if (subtotalEl) subtotalEl.textContent = `Rp ${pending.subtotal.toLocaleString('id-ID')}`
+      if (feeEl) feeEl.textContent = `Rp ${pending.platformFee.toLocaleString('id-ID')}`
+      if (totalEl) totalEl.textContent = `Rp ${pending.total.toLocaleString('id-ID')}`
+    } catch {}
+
+    const payBtn = document.getElementById('pay-btn')
+    if (payBtn) {
+      payBtn.addEventListener('click', async () => {
+        try {
+          if (!pending) return
+
+          const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value || 'transfer'
+
+          const { useOrderStore } = await import('../stores/orderStore')
+          const order = useOrderStore.getState().createOrder(pending.items, pending.shippingAddress)
+          useOrderStore.getState().setPaymentMethod(order.id, paymentMethod)
+
+          localStorage.removeItem('manggaku-cart')
+          localStorage.removeItem('manggaku-pending-order')
+
+          alert('Pesanan berhasil dibuat! Status: Menunggu Pembayaran')
+          window.location.href = '/marketplace'
+        } catch (err) {
+          console.error('Payment error:', err)
+          alert('Gagal memproses pembayaran. Coba lagi.')
+        }
+      })
+    }
+  })
+</script>

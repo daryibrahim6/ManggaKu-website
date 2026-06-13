@@ -1,0 +1,10 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import { UserTable } from '../../components/admin/UserTable'
+---
+
+<DashboardLayout title="Manajemen User" role="admin">
+  <UserTable client:visible />
+</DashboardLayout>

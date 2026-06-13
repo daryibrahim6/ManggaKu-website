@@ -1,0 +1,124 @@
+---
+import MarketingLayout from '../components/layout/MarketingLayout.astro'
+---
+
+<MarketingLayout title="Tentang Kami">
+  <section class="py-16 md:py-24">
+    <div class="max-w-4xl mx-auto px-4 md:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 rounded-full text-sm font-medium mb-4">
+          Tentang Kami
+        </span>
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-neutral-900">
+          Tentang ManggaKu
+        </h1>
+        <p class="mt-4 text-neutral-500 text-lg max-w-2xl mx-auto">
+          Platform marketplace digital yang menghubungkan petani mangga Indramayu langsung dengan konsumen.
+        </p>
+      </div>
+
+      <!-- Misi -->
+      <div class="mb-16 p-8 bg-gradient-to-br from-primary-50 to-white rounded-3xl border border-primary-100">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h2 class="font-display text-2xl font-bold text-neutral-900">Misi Kami</h2>
+        </div>
+        <p class="text-neutral-600 leading-relaxed text-lg">
+          ManggaKu hadir untuk menjembatani petani mangga di Indramayu dengan konsumen di seluruh Indonesia.
+          Kami percaya bahwa petani berhak mendapatkan harga yang adil, dan konsumen berhak mendapatkan
+          mangga berkualitas dengan harga transparan.
+        </p>
+      </div>
+
+      <!-- Mengapa Indramayu -->
+      <div class="mb-16">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-secondary-100 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-secondary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h2 class="font-display text-2xl font-bold text-neutral-900">Mengapa Indramayu?</h2>
+        </div>
+        <p class="text-neutral-600 leading-relaxed">
+          Indramayu adalah salah satu sentra penghasil mangga terbesar di Jawa Barat. Dengan varietas unggulan
+          seperti Gedong Gincu, Harum Manis, dan Cengkir, mangga Indramayu memiliki cita rasa yang khas dan
+          diminati oleh pasar nasional. Namun, banyak petani yang masih terjebak dalam rantai tengkulak
+          dengan harga yang tidak adil.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div class="p-4 bg-white rounded-xl border border-neutral-100 text-center">
+            <p class="font-display text-2xl font-bold text-primary-600">Gedong Gincu</p>
+            <p class="text-sm text-neutral-500 mt-1">Varietas unggulan khas Indramayu</p>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-neutral-100 text-center">
+            <p class="font-display text-2xl font-bold text-secondary-600">Harum Manis</p>
+            <p class="text-sm text-neutral-500 mt-1">Manis, wangi, dan segar</p>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-neutral-100 text-center">
+            <p class="font-display text-2xl font-bold text-primary-600">Cengkir</p>
+            <p class="text-sm text-neutral-500 mt-1">Cocok untuk olahan dan ekspor</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tim Kami -->
+      <div>
+        <div class="text-center mb-10">
+          <span class="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 rounded-full text-sm font-medium mb-4">
+            Tim Kami
+          </span>
+          <h2 class="font-display text-3xl font-bold text-neutral-900">
+            Kenali Tim ManggaKu
+          </h2>
+          <p class="mt-3 text-neutral-500 max-w-md mx-auto">
+            Mahasiswa Technopreneurship POLINDRA yang berkomitmen untuk kemajuan petani lokal.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div class="group p-6 bg-white rounded-2xl border border-neutral-100 hover:border-primary-100 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300 text-center">
+            <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=BungaPurwaningsih&backgroundColor=ffdfbf" alt="Bunga Purwaningsih" class="w-16 h-16 mx-auto mb-3 rounded-full object-cover ring-2 ring-primary-100 group-hover:scale-110 transition-transform duration-300" width={64} height={64} />
+            <h3 class="font-semibold text-neutral-900 text-sm">Bunga Purwaningsih</h3>
+            <p class="text-xs text-primary-600 mt-1">Frontend Developer</p>
+          </div>
+
+          <div class="group p-6 bg-white rounded-2xl border border-neutral-100 hover:border-primary-100 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300 text-center">
+            <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=ChairaniNayu&backgroundColor=c0aede" alt="Chairani Nayu Nainggolan" class="w-16 h-16 mx-auto mb-3 rounded-full object-cover ring-2 ring-secondary-100 group-hover:scale-110 transition-transform duration-300" width={64} height={64} />
+            <h3 class="font-semibold text-neutral-900 text-sm">Chairani Nayu Nainggolan</h3>
+            <p class="text-xs text-secondary-600 mt-1">UI/UX Designer</p>
+          </div>
+
+          <div class="group p-6 bg-white rounded-2xl border border-neutral-100 hover:border-primary-100 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300 text-center">
+            <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=DaryIbrahim&backgroundColor=b6e3f4" alt="Dary Ibrahim Akram" class="w-16 h-16 mx-auto mb-3 rounded-full object-cover ring-2 ring-primary-100 group-hover:scale-110 transition-transform duration-300" width={64} height={64} />
+            <h3 class="font-semibold text-neutral-900 text-sm">Dary Ibrahim Akram</h3>
+            <p class="text-xs text-primary-600 mt-1">Fullstack Developer</p>
+          </div>
+
+          <div class="group p-6 bg-white rounded-2xl border border-neutral-100 hover:border-primary-100 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300 text-center">
+            <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=MuhammadReza&backgroundColor=b6e3f4" alt="Muhammad Reza Fadillah" class="w-16 h-16 mx-auto mb-3 rounded-full object-cover ring-2 ring-secondary-100 group-hover:scale-110 transition-transform duration-300" width={64} height={64} />
+            <h3 class="font-semibold text-neutral-900 text-sm">Muhammad Reza Fadillah</h3>
+            <p class="text-xs text-secondary-600 mt-1">Backend Developer</p>
+          </div>
+
+          <div class="group p-6 bg-white rounded-2xl border border-neutral-100 hover:border-primary-100 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300 text-center">
+            <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=MuhammadRijal&backgroundColor=b6e3f4" alt="Muhammad Rijal Marzuq" class="w-16 h-16 mx-auto mb-3 rounded-full object-cover ring-2 ring-primary-100 group-hover:scale-110 transition-transform duration-300" width={64} height={64} />
+            <h3 class="font-semibold text-neutral-900 text-sm">Muhammad Rijal Marzuq</h3>
+            <p class="text-xs text-primary-600 mt-1">DevOps & QA</p>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <p class="text-sm text-neutral-400">
+            Technopreneurship <span class="font-semibold text-primary-600">POLINDRA</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

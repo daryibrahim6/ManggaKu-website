@@ -1,0 +1,167 @@
+---
+import MarketingLayout from '../components/layout/MarketingLayout.astro'
+---
+
+<MarketingLayout title="Keranjang">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+    <div class="flex items-center gap-3 mb-8">
+      <a href="/marketplace" class="text-neutral-400 hover:text-primary-600 transition-colors">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+      </a>
+      <h1 class="font-display text-3xl font-bold text-neutral-900">Keranjang Belanja</h1>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-3" id="cart-items-container">
+        <p class="text-sm text-neutral-400 text-center py-12 hidden" id="cart-empty">
+          Keranjang kosong. <a href="/marketplace" class="text-primary-600 hover:text-primary-700 font-medium">Mulai belanja</a>
+        </p>
+      </div>
+
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-neutral-100 sticky top-24">
+          <h2 class="font-semibold text-neutral-900 mb-4">Ringkasan Pesanan</h2>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Subtotal</span>
+              <span class="font-mono font-medium text-neutral-900" id="subtotal">Rp 0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Estimasi Ongkir</span>
+              <span class="text-neutral-400">Dihitung di checkout</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Platform fee (3%)</span>
+              <span class="font-mono text-neutral-500" id="fee">Rp 0</span>
+            </div>
+            <div class="border-t border-neutral-100 pt-3 flex justify-between font-semibold">
+              <span class="text-neutral-900">Total</span>
+              <span class="font-mono text-secondary-600" id="cart-total">Rp 0</span>
+            </div>
+          </div>
+
+          <a href="/checkout" class="block mt-6">
+            <button class="w-full py-3 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold rounded-xl transition-all shadow-lg shadow-primary-500/25 hover:shadow-primary-500/30">
+              Lanjut ke Checkout
+            </button>
+          </a>
+
+          <a href="/marketplace" class="block text-center mt-3 text-sm text-primary-600 hover:text-primary-700 transition-colors">
+            Lanjut Belanja
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const container = document.getElementById('cart-items-container')
+      const emptyState = document.getElementById('cart-empty')
+      const subtotalEl = document.getElementById('subtotal')
+      const feeEl = document.getElementById('fee')
+      const totalEl = document.getElementById('cart-total')
+      if (!container) return
+
+      function formatRupiah(n: number) {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n)
+      }
+
+      function getCart() {
+        try {
+          const data = localStorage.getItem('manggaku-cart')
+          const parsed = data ? JSON.parse(data) : null
+          return parsed?.state?.items || []
+        } catch { return [] }
+      }
+
+      function saveCart(items: any[]) {
+        const data = localStorage.getItem('manggaku-cart')
+        const parsed = data ? JSON.parse(data) : {}
+        parsed.state = { ...parsed.state, items }
+        localStorage.setItem('manggaku-cart', JSON.stringify(parsed))
+        window.dispatchEvent(new CustomEvent('cart:updated'))
+      }
+
+      function renderCart() {
+        const items = getCart()
+
+        const existing = container.querySelectorAll('.cart-item')
+        existing.forEach(el => el.remove())
+
+        if (items.length === 0) {
+          emptyState?.classList.remove('hidden')
+          if (subtotalEl) subtotalEl.textContent = formatRupiah(0)
+          if (feeEl) feeEl.textContent = formatRupiah(0)
+          if (totalEl) totalEl.textContent = formatRupiah(0)
+          return
+        }
+
+        emptyState?.classList.add('hidden')
+
+        const itemsHtml = items.map(item => `
+          <div class="cart-item flex items-center gap-4 p-4 bg-white rounded-2xl border border-neutral-100 hover:border-primary-100 transition-colors">
+            <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-xl bg-neutral-50" />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-medium text-neutral-800 truncate">${item.name}</h3>
+              ${item.sellerName ? `<p class="text-sm text-neutral-500 truncate">${item.sellerName}</p>` : ''}
+              <p class="text-sm font-semibold text-primary-600 mt-1 font-mono">${formatRupiah(item.price)}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="qty-btn w-9 h-9 rounded-xl border border-neutral-200 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 hover:border-neutral-300 transition-all" data-action="decrease" data-id="${item.productId}">−</button>
+              <span class="w-8 text-center text-sm font-medium">${item.quantity}</span>
+              <button class="qty-btn w-9 h-9 rounded-xl border border-neutral-200 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 hover:border-neutral-300 transition-all" data-action="increase" data-id="${item.productId}">+</button>
+            </div>
+            <p class="font-semibold text-neutral-800 w-28 text-right whitespace-nowrap font-mono">${formatRupiah(item.price * item.quantity)}</p>
+            <button class="remove-btn w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all" data-id="${item.productId}">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        `).join('')
+
+        container.insertAdjacentHTML('beforeend', itemsHtml)
+
+        const subtotal = items.reduce((acc: number, item: any) => acc + item.price * item.quantity, 0)
+        const fee = Math.round(subtotal * 0.03)
+        const total = subtotal + fee
+        if (subtotalEl) subtotalEl.textContent = formatRupiah(subtotal)
+        if (feeEl) feeEl.textContent = formatRupiah(fee)
+        if (totalEl) totalEl.textContent = formatRupiah(total)
+
+        container.querySelectorAll('.qty-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id')
+            const action = btn.getAttribute('data-action')
+            const cartItems = getCart()
+            const item = cartItems.find((i: any) => i.productId === id)
+            if (!item) return
+            if (action === 'increase') item.quantity += 1
+            if (action === 'decrease') {
+              item.quantity -= 1
+              if (item.quantity <= 0) {
+                saveCart(cartItems.filter((i: any) => i.productId !== id))
+                renderCart()
+                return
+              }
+            }
+            saveCart(cartItems)
+            renderCart()
+          })
+        })
+
+        container.querySelectorAll('.remove-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id')
+            saveCart(getCart().filter((i: any) => i.productId !== id))
+            renderCart()
+          })
+        })
+      }
+
+      renderCart()
+    })
+  </script>
+</MarketingLayout>

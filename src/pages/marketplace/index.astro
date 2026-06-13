@@ -1,0 +1,189 @@
+---
+import MarketingLayout from '../../components/layout/MarketingLayout.astro'
+import { SearchBar } from '../../components/marketplace/SearchBar'
+import { CategoryTabs } from '../../components/marketplace/CategoryTabs'
+import { BannerCarousel } from '../../components/marketplace/BannerCarousel'
+import { ProductFilters } from '../../components/marketplace/ProductFilters'
+---
+
+<MarketingLayout title="Marketplace">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+    <div class="mb-8">
+      <BannerCarousel client:visible />
+    </div>
+
+    <div class="mb-6">
+      <SearchBar client:load />
+    </div>
+
+    <div class="mb-6">
+      <CategoryTabs client:load />
+    </div>
+
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="font-display text-2xl font-bold text-neutral-900">Produk Terlaris</h2>
+      <ProductFilters client:load />
+    </div>
+
+    <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {/* Loading skeleton */}
+      <div class="bg-white rounded-2xl border border-neutral-100 overflow-hidden animate-pulse">
+        <div class="aspect-square bg-neutral-100"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-4 bg-neutral-100 rounded w-16"></div>
+          <div class="h-5 bg-neutral-100 rounded w-3/4"></div>
+          <div class="h-4 bg-neutral-100 rounded w-full"></div>
+          <div class="h-6 bg-neutral-100 rounded w-1/3"></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-neutral-100 overflow-hidden animate-pulse">
+        <div class="aspect-square bg-neutral-100"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-4 bg-neutral-100 rounded w-16"></div>
+          <div class="h-5 bg-neutral-100 rounded w-3/4"></div>
+          <div class="h-4 bg-neutral-100 rounded w-full"></div>
+          <div class="h-6 bg-neutral-100 rounded w-1/3"></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-neutral-100 overflow-hidden animate-pulse">
+        <div class="aspect-square bg-neutral-100"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-4 bg-neutral-100 rounded w-16"></div>
+          <div class="h-5 bg-neutral-100 rounded w-3/4"></div>
+          <div class="h-4 bg-neutral-100 rounded w-full"></div>
+          <div class="h-6 bg-neutral-100 rounded w-1/3"></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-neutral-100 overflow-hidden animate-pulse">
+        <div class="aspect-square bg-neutral-100"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-4 bg-neutral-100 rounded w-16"></div>
+          <div class="h-5 bg-neutral-100 rounded w-3/4"></div>
+          <div class="h-4 bg-neutral-100 rounded w-full"></div>
+          <div class="h-6 bg-neutral-100 rounded w-1/3"></div>
+        </div>
+      </div>
+    </div>
+    <div id="no-results" class="hidden text-center py-12">
+      <p class="text-neutral-500 text-lg">Produk tidak ditemukan</p>
+    </div>
+  </div>
+
+  <script>
+    import { createClient } from '@supabase/supabase-js'
+
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
+    const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    const grid = document.getElementById('product-grid')!
+    const noResults = document.getElementById('no-results')!
+
+    let allProducts: Array<{
+      id: string; slug: string; name: string; description: string; price: number;
+      unit: string; category: string; variety?: string; images: string[]; rating: number;
+      review_count: number; seller_id: string;
+    }> = []
+    let currentQuery = ''
+    let currentCategory = 'all'
+    let currentFilters: Record<string, string> = {}
+
+    function formatRupiah(price: number) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price)
+    }
+
+    function getCategoryBadge(category: string) {
+      const badges: Record<string, { label: string; cls: string }> = {
+        fresh: { label: 'Segar', cls: 'bg-primary-100 text-primary-700' },
+        olahan: { label: 'Olahan', cls: 'bg-secondary-100 text-secondary-700' },
+        bulk: { label: 'Bulk', cls: 'bg-neutral-100 text-neutral-600' },
+      }
+      return badges[category] || { label: category, cls: 'bg-neutral-100 text-neutral-600' }
+    }
+
+    function renderProducts(products: typeof allProducts) {
+      if (products.length === 0) {
+        grid.innerHTML = ''
+        noResults.classList.remove('hidden')
+        return
+      }
+      noResults.classList.add('hidden')
+
+      grid.innerHTML = products.map((p) => {
+        const badge = getCategoryBadge(p.category)
+        return `
+          <a href="/marketplace/${p.slug}" class="group block bg-white rounded-2xl border border-neutral-100 overflow-hidden hover:shadow-lg hover:shadow-neutral-200/50 transition-all duration-300">
+            <div class="aspect-square overflow-hidden bg-neutral-50">
+              <img src="${p.images?.[0] || ''}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-medium ${badge.cls} px-2 py-0.5 rounded-full">${badge.label}</span>
+              </div>
+              <h3 class="font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors truncate">${p.name}</h3>
+              <p class="text-sm text-neutral-500 mt-1 line-clamp-2">${p.description || ''}</p>
+              <div class="flex items-center justify-between mt-3">
+                <p class="font-bold text-primary-600">${formatRupiah(p.price)}<span class="text-xs font-normal text-neutral-400">/${p.unit}</span></p>
+                <div class="flex items-center gap-1 text-sm text-neutral-500">
+                  <svg class="w-4 h-4 text-secondary-500 fill-secondary-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span>${p.rating || 0}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        `
+      }).join('')
+    }
+
+    function filterProducts() {
+      return allProducts.filter((p) => {
+        const matchesQuery = !currentQuery ||
+          p.name.toLowerCase().includes(currentQuery.toLowerCase()) ||
+          (p.description || '').toLowerCase().includes(currentQuery.toLowerCase())
+        const matchesCategory = !currentCategory || currentCategory === 'all' || p.category === currentCategory
+        
+        let matchesFilters = true
+        if (currentFilters.priceMin) matchesFilters = matchesFilters && p.price >= Number(currentFilters.priceMin)
+        if (currentFilters.priceMax) matchesFilters = matchesFilters && p.price <= Number(currentFilters.priceMax)
+        if (currentFilters.variety) matchesFilters = matchesFilters && p.variety === currentFilters.variety
+        if (currentFilters.rating) matchesFilters = matchesFilters && p.rating >= Number(currentFilters.rating)
+        
+        return matchesQuery && matchesCategory && matchesFilters
+      })
+    }
+
+    async function loadProducts() {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error loading products:', error)
+        grid.innerHTML = '<p class="col-span-full text-center text-neutral-500 py-8">Gagal memuat produk</p>'
+        return
+      }
+
+      allProducts = data || []
+      renderProducts(allProducts)
+    }
+
+    loadProducts()
+
+    window.addEventListener('marketplace:search', ((e: CustomEvent) => {
+      currentQuery = e.detail.query
+      renderProducts(filterProducts())
+    }) as EventListener)
+
+    window.addEventListener('marketplace:category', ((e: CustomEvent) => {
+      currentCategory = e.detail.category
+      renderProducts(filterProducts())
+    }) as EventListener)
+
+    window.addEventListener('marketplace:filter', ((e: CustomEvent) => {
+      currentFilters = e.detail.filters
+      renderProducts(filterProducts())
+    }) as EventListener)
+  </script>
+</MarketingLayout>

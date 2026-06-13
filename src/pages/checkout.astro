@@ -1,0 +1,190 @@
+---
+import AppLayout from '../components/layout/AppLayout.astro'
+---
+
+<AppLayout title="Checkout">
+  <div class="max-w-4xl mx-auto px-4 md:px-8 py-8">
+    <h1 class="font-display text-3xl font-bold text-neutral-900 mb-8 text-center">Checkout</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left: Shipping Form -->
+      <div class="lg:col-span-2">
+        <form id="checkout-form" class="space-y-6">
+          <h2 class="font-semibold text-lg text-neutral-900">Alamat Pengiriman</h2>
+
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-neutral-700">Nama Lengkap</label>
+              <input type="text" name="name" required class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="Masukkan nama lengkap" />
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-neutral-700">Nomor Telepon</label>
+              <input type="tel" name="phone" required class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="Contoh: 081234567890" />
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-neutral-700">Alamat Lengkap</label>
+              <textarea name="address" required rows="3" class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="Jalan, Nomor Rumah, RT/RW, Kelurahan, Kecamatan"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-neutral-700">Kota/Kabupaten</label>
+                <input type="text" name="city" required class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="Indramayu" />
+              </div>
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-neutral-700">Provinsi</label>
+                <input type="text" name="province" required class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="Jawa Barat" />
+              </div>
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-neutral-700">Kode Pos</label>
+                <input type="text" name="postalCode" required class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="45211" />
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-neutral-900">Pilih Kurir</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <label class="p-3 bg-white rounded-xl border border-neutral-200 cursor-pointer hover:border-neutral-300">
+                <input type="radio" name="courier" value="jne" class="mb-2" />
+                <p class="font-medium text-sm text-neutral-900">JNE</p>
+                <p class="text-xs text-neutral-400">Reg 2-3 hari</p>
+                <p class="font-mono text-sm text-secondary-600 mt-1">Rp 15.000</p>
+              </label>
+              <label class="p-3 bg-white rounded-xl border border-neutral-200 cursor-pointer hover:border-neutral-300">
+                <input type="radio" name="courier" value="jnt" class="mb-2" />
+                <p class="font-medium text-sm text-neutral-900">J&T</p>
+                <p class="text-xs text-neutral-400">Express 1-2 hari</p>
+                <p class="font-mono text-sm text-secondary-600 mt-1">Rp 18.000</p>
+              </label>
+              <label class="p-3 bg-white rounded-xl border border-neutral-200 cursor-pointer hover:border-neutral-300">
+                <input type="radio" name="courier" value="sicepat" class="mb-2" />
+                <p class="font-medium text-sm text-neutral-900">SiCepat</p>
+                <p class="text-xs text-neutral-400">Reg 2-3 hari</p>
+                <p class="font-mono text-sm text-secondary-600 mt-1">Rp 12.000</p>
+              </label>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-neutral-900">Catatan untuk Penjual (opsional)</label>
+            <textarea class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm resize-none" rows="2" placeholder="Contoh: Pilih yang matang ya..."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right: Order Summary -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl border border-neutral-100 p-4 space-y-4 sticky top-4">
+          <h2 class="font-semibold text-lg text-neutral-900">Ringkasan Pesanan</h2>
+
+          <div id="checkout-items" class="space-y-3">
+            <!-- Items will be populated by script -->
+          </div>
+
+          <div class="border-t border-neutral-100 pt-3 space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Subtotal</span>
+              <span id="checkout-subtotal" class="font-mono text-neutral-900">Rp 0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-500">Platform fee (3%)</span>
+              <span id="checkout-fee" class="font-mono text-neutral-900">Rp 0</span>
+            </div>
+            <div class="border-t border-neutral-100 pt-2 flex justify-between font-semibold">
+              <span class="text-neutral-900">Total</span>
+              <span id="checkout-total" class="font-mono text-secondary-600">Rp 0</span>
+            </div>
+          </div>
+
+          <button type="submit" form="checkout-form" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors">
+            Buat Pesanan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</AppLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('checkout-form')
+    if (!form) return
+
+    function getCart() {
+      try {
+        const data = localStorage.getItem('manggaku-cart')
+        const parsed = data ? JSON.parse(data) : null
+        return parsed?.state?.items || []
+      } catch { return [] }
+    }
+
+    // Populate order summary
+    const items = getCart()
+    const itemsContainer = document.getElementById('checkout-items')
+    if (itemsContainer && items.length > 0) {
+      itemsContainer.innerHTML = items.map(item => `
+        <div class="flex items-center gap-3 py-3 border-b border-neutral-100 last:border-0">
+          <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg" />
+          <div class="flex-1">
+            <p class="text-sm font-medium text-neutral-800">${item.name}</p>
+            <p class="text-xs text-neutral-500">${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}</p>
+          </div>
+          <p class="text-sm font-semibold text-neutral-800">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</p>
+        </div>
+      `).join('')
+    }
+
+    const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    const fee = Math.round(subtotal * 0.03)
+    const total = subtotal + fee
+
+    const subtotalEl = document.getElementById('checkout-subtotal')
+    const feeEl = document.getElementById('checkout-fee')
+    const totalEl = document.getElementById('checkout-total')
+    if (subtotalEl) subtotalEl.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`
+    if (feeEl) feeEl.textContent = `Rp ${fee.toLocaleString('id-ID')}`
+    if (totalEl) totalEl.textContent = `Rp ${total.toLocaleString('id-ID')}`
+
+    // Handle form submit
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      
+      const formData = new FormData(form)
+      const shippingAddress = {
+        name: formData.get('name') || '',
+        phone: formData.get('phone') || '',
+        address: formData.get('address') || '',
+        city: formData.get('city') || '',
+        province: formData.get('province') || '',
+        postalCode: formData.get('postalCode') || '',
+      }
+
+      if (!shippingAddress.name || !shippingAddress.phone || !shippingAddress.address) {
+        alert('Mohon lengkapi data pengiriman')
+        return
+      }
+
+      const cartItems = getCart()
+      if (cartItems.length === 0) {
+        alert('Keranjang kosong')
+        return
+      }
+
+      // Store order data for payment page
+      const orderData = {
+        items: cartItems,
+        shippingAddress,
+        subtotal,
+        platformFee: fee,
+        total,
+      }
+      localStorage.setItem('manggaku-pending-order', JSON.stringify(orderData))
+
+      // Redirect to payment
+      window.location.href = '/pembayaran'
+    })
+  })
+</script>

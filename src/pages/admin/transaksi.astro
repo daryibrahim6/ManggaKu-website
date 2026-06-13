@@ -1,0 +1,54 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import { formatRupiah } from '../../lib/utils'
+import { Badge } from '../../components/ui/badge'
+---
+
+<DashboardLayout title="Transaksi" role="admin">
+  <div class="space-y-4">
+    <h1 class="font-display text-2xl font-bold text-leaf-900">Semua Transaksi</h1>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-leaf-100/50 overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-leaf-100">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-leaf-700/70">No. Pesanan</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-leaf-700/70">Pembeli</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-leaf-700/70">Penjual</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-leaf-700/70">Total</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-leaf-700/70">Status</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-leaf-700/70">Tanggal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-leaf-50 hover:bg-leaf-50/50">
+            <td class="px-4 py-3 font-mono text-sm text-leaf-900">SM-2026-ABC12</td>
+            <td class="px-4 py-3 text-sm text-leaf-900">Andi Pratama</td>
+            <td class="px-4 py-3 text-sm text-leaf-900">Pak Karso</td>
+            <td class="px-4 py-3 font-mono text-sm text-mango-500">{formatRupiah(87100)}</td>
+            <td class="px-4 py-3"><Badge className="bg-green-100 text-green-700">Selesai</Badge></td>
+            <td class="px-4 py-3 text-xs text-leaf-700/50">12 Jun 2026</td>
+          </tr>
+          <tr class="border-b border-leaf-50 hover:bg-leaf-50/50">
+            <td class="px-4 py-3 font-mono text-sm text-leaf-900">SM-2026-DEF34</td>
+            <td class="px-4 py-3 text-sm text-leaf-900">Siti Aminah</td>
+            <td class="px-4 py-3 text-sm text-leaf-900">Bu Rina</td>
+            <td class="px-4 py-3 font-mono text-sm text-mango-500">{formatRupiah(52500)}</td>
+            <td class="px-4 py-3"><Badge className="bg-amber-100 text-amber-700">Diproses</Badge></td>
+            <td class="px-4 py-3 text-xs text-leaf-700/50">11 Jun 2026</td>
+          </tr>
+          <tr class="border-b border-leaf-50 hover:bg-leaf-50/50">
+            <td class="px-4 py-3 font-mono text-sm text-leaf-900">SM-2026-GHI56</td>
+            <td class="px-4 py-3 text-sm text-leaf-900">Rina Wati</td>
+            <td class="px-4 py-3 text-sm text-leaf-900">Pak Warto</td>
+            <td class="px-4 py-3 font-mono text-sm text-mango-500">{formatRupiah(145000)}</td>
+            <td class="px-4 py-3"><Badge className="bg-blue-100 text-blue-700">Dikirim</Badge></td>
+            <td class="px-4 py-3 text-xs text-leaf-700/50">10 Jun 2026</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</DashboardLayout>

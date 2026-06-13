@@ -1,0 +1,41 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+---
+
+<DashboardLayout title="Verifikasi" role="petani">
+  <div class="max-w-2xl space-y-6">
+    <h1 class="font-display text-2xl font-bold text-leaf-900">Verifikasi Akun</h1>
+
+    <div class="bg-amber-50 rounded-2xl p-6 border border-amber-200">
+      <p class="text-sm text-amber-700">
+        Akun kamu belum terverifikasi. Unggah dokumen yang diperlukan untuk mulai berjualan.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50 space-y-6">
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900">Foto KTP</label>
+        <div class="w-full h-40 border-2 border-dashed border-leaf-300 rounded-xl flex flex-col items-center justify-center text-leaf-500 hover:border-mango-400 hover:text-mango-500 transition-colors cursor-pointer">
+          <span class="text-3xl mb-2">📷</span>
+          <span class="text-sm">Klik untuk upload KTP</span>
+          <span class="text-xs text-leaf-400">JPG, PNG (maks. 2MB)</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900">Foto Lahan/Kebun</label>
+        <div class="w-full h-40 border-2 border-dashed border-leaf-300 rounded-xl flex flex-col items-center justify-center text-leaf-500 hover:border-mango-400 hover:text-mango-500 transition-colors cursor-pointer">
+          <span class="text-3xl mb-2">📸</span>
+          <span class="text-sm">Klik untuk upload foto lahan</span>
+          <span class="text-xs text-leaf-400">JPG, PNG (maks. 2MB)</span>
+        </div>
+      </div>
+
+      <button class="w-full py-3 bg-mango-500 hover:bg-mango-600 text-white font-semibold rounded-xl transition-colors">
+        Kirim untuk Verifikasi
+      </button>
+    </div>
+  </div>
+</DashboardLayout>

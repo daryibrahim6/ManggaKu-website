@@ -1,0 +1,241 @@
+---
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-neutral-100/50 shadow-sm shadow-neutral-900/5" role="navigation" aria-label="Navigasi utama">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-xl px-2 py-1">
+      <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:shadow-primary-500/40 transition-shadow">
+        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      </div>
+      <span class="font-display font-bold text-xl text-neutral-900 group-hover:text-primary-600 transition-colors">
+        Mangga<span class="text-primary-600">Ku</span>
+      </span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-1" role="menubar">
+      <a href="/marketplace" class="relative px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-600 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-xl hover:bg-primary-50/50" role="menuitem">
+        Marketplace
+      </a>
+      <a href="/cara-kerja" class="relative px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-600 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-xl hover:bg-primary-50/50" role="menuitem">
+        Cara Kerja
+      </a>
+      <a href="/tentang-kami" class="relative px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-600 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-xl hover:bg-primary-50/50" role="menuitem">
+        Tentang
+      </a>
+      <a href="/faq" class="relative px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-600 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-xl hover:bg-primary-50/50" role="menuitem">
+        FAQ
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="/keranjang" class="relative p-2.5 text-neutral-600 hover:text-primary-600 hover:bg-primary-50/50 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-xl" aria-label="Keranjang">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+        </svg>
+        <span class="absolute -top-0.5 -right-0.5 w-5 h-5 bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg shadow-secondary-500/30 hidden" id="cart-badge">0</span>
+      </a>
+      <a
+        href="/auth/masuk"
+        id="btn-login"
+        class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 border border-primary-200 rounded-xl hover:bg-primary-100 hover:border-primary-300 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 min-h-[44px]"
+      >
+        Masuk
+      </a>
+      <a
+        href="/auth/daftar"
+        id="btn-register"
+        class="hidden sm:inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg shadow-primary-500/25 hover:shadow-primary-500/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 min-h-[44px]"
+      >
+        Daftar
+      </a>
+      <div class="hidden items-center gap-2" id="user-menu">
+        <div class="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg shadow-primary-500/25">
+          <span id="user-avatar">U</span>
+        </div>
+        <span class="text-sm font-medium text-neutral-700 hidden sm:inline" id="user-name"></span>
+        <button id="btn-logout" class="text-sm text-neutral-500 hover:text-red-600 transition-colors px-2 py-1 rounded-lg hover:bg-red-50">
+          Keluar
+        </button>
+      </div>
+
+      <!-- Hamburger mobile -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-3 text-neutral-600 hover:text-primary-600 hover:bg-primary-50/50 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 min-w-[44px] min-h-[44px] flex items-center justify-center"
+        aria-label="Buka menu"
+        aria-expanded="false"
+        type="button"
+      >
+        <svg id="icon-menu" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-neutral-100 bg-white/95 backdrop-blur-xl">
+    <div class="px-4 py-4 space-y-1">
+      <a href="/marketplace" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all">
+        <svg class="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
+        Marketplace
+      </a>
+      <a href="/cara-kerja" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all">
+        <svg class="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+        Cara Kerja
+      </a>
+      <a href="/tentang-kami" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all">
+        <svg class="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+        Tentang Kami
+      </a>
+      <a href="/faq" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all">
+        <svg class="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        FAQ
+      </a>
+      <div class="border-t border-neutral-100 my-2"></div>
+      <div id="mobile-auth-buttons" class="flex gap-2 px-4">
+        <a href="/auth/masuk" class="flex-1 text-center py-2.5 text-sm font-semibold text-primary-700 bg-primary-50 border border-primary-200 rounded-xl hover:bg-primary-100 transition-all min-h-[44px] flex items-center justify-center">
+          Masuk
+        </a>
+        <a href="/auth/daftar" class="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg shadow-primary-500/25 min-h-[44px] flex items-center justify-center">
+          Daftar
+        </a>
+      </div>
+      <div id="mobile-user-info" class="hidden px-4">
+        <div class="flex items-center gap-3 py-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center text-white font-semibold shadow-lg shadow-primary-500/25">
+            <span id="mobile-user-avatar">U</span>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-neutral-900" id="mobile-user-name"></p>
+            <p class="text-xs text-neutral-500">Akun saya</p>
+          </div>
+        </div>
+        <button id="mobile-btn-logout" class="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-all">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+          Keluar
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  async function handleLogout() {
+    try {
+      const { createClient } = await import('../../lib/supabase')
+      const supabase = createClient
+        ? createClient
+        : (await import('../../lib/supabase')).supabase
+      await supabase.auth.signOut()
+      localStorage.removeItem('manggaku-auth')
+      window.location.href = '/'
+    } catch {
+      localStorage.removeItem('manggaku-auth')
+      window.location.href = '/'
+    }
+  }
+
+  function updateNav() {
+    try {
+      const authData = localStorage.getItem('manggaku-auth')
+      const auth = authData ? JSON.parse(authData) : null
+      const user = auth?.state?.user
+
+      const btnLogin = document.getElementById('btn-login')
+      const btnRegister = document.getElementById('btn-register')
+      const userMenu = document.getElementById('user-menu')
+      const userName = document.getElementById('user-name')
+      const userAvatar = document.getElementById('user-avatar')
+      const btnLogout = document.getElementById('btn-logout')
+      const mobileAuth = document.getElementById('mobile-auth-buttons')
+      const mobileUserInfo = document.getElementById('mobile-user-info')
+      const mobileUserName = document.getElementById('mobile-user-name')
+      const mobileUserAvatar = document.getElementById('mobile-user-avatar')
+      const mobileBtnLogout = document.getElementById('mobile-btn-logout')
+
+      if (user) {
+        btnLogin?.classList.add('hidden')
+        btnRegister?.classList.add('hidden')
+        userMenu?.classList.remove('hidden')
+        userMenu?.classList.add('flex')
+        if (userName) userName.textContent = user.name
+        if (userAvatar) userAvatar.textContent = user.name?.charAt(0)?.toUpperCase() || 'U'
+        btnLogout?.addEventListener('click', handleLogout)
+        mobileAuth?.classList.add('hidden')
+        mobileUserInfo?.classList.remove('hidden')
+        if (mobileUserName) mobileUserName.textContent = user.name
+        if (mobileUserAvatar) mobileUserAvatar.textContent = user.name?.charAt(0)?.toUpperCase() || 'U'
+        mobileBtnLogout?.addEventListener('click', handleLogout)
+      } else {
+        userMenu?.classList.add('hidden')
+        mobileAuth?.classList.remove('hidden')
+        mobileUserInfo?.classList.add('hidden')
+      }
+    } catch {}
+  }
+
+  function updateCartBadge() {
+    try {
+      const cartData = localStorage.getItem('manggaku-cart')
+      const cart = cartData ? JSON.parse(cartData) : null
+      const items = cart?.state?.items || []
+      const total = items.reduce((acc, item) => acc + item.quantity, 0)
+      const badge = document.getElementById('cart-badge')
+      if (badge) {
+        if (total > 0) {
+          badge.textContent = total.toString()
+          badge.classList.remove('hidden')
+        } else {
+          badge.classList.add('hidden')
+        }
+      }
+    } catch {}
+  }
+
+  let mobileMenuInitialized = false
+
+  function initMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn')
+    const menu = document.getElementById('mobile-menu')
+    if (!btn || !menu) return
+    if (mobileMenuInitialized) return
+    mobileMenuInitialized = true
+
+    btn.addEventListener('click', () => {
+      const iconMenu = document.getElementById('icon-menu')
+      const iconClose = document.getElementById('icon-close')
+      const isOpen = !menu.classList.contains('hidden')
+      menu.classList.toggle('hidden')
+      iconMenu?.classList.toggle('hidden')
+      iconClose?.classList.toggle('hidden')
+      btn.setAttribute('aria-expanded', (!isOpen).toString())
+    })
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateNav()
+    updateCartBadge()
+    initMobileMenu()
+  })
+
+  document.addEventListener('astro:page-load', () => {
+    updateNav()
+    updateCartBadge()
+    initMobileMenu()
+  })
+
+  window.addEventListener('storage', () => {
+    updateNav()
+    updateCartBadge()
+  })
+
+  window.addEventListener('cart:updated', () => {
+    updateCartBadge()
+  })
+</script>

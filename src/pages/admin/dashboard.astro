@@ -1,0 +1,37 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import { PlatformStats } from '../../components/admin/PlatformStats'
+import { AdminCharts } from '../../components/admin/AdminCharts'
+---
+
+<DashboardLayout title="Dashboard Admin" role="admin">
+  <div class="space-y-6">
+    <PlatformStats client:visible />
+    <AdminCharts client:visible />
+
+    {/* Quick Actions */}
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50">
+      <h3 class="font-semibold text-leaf-900 mb-4">Aksi Cepat</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <a href="/admin/users" class="p-4 bg-leaf-50 rounded-xl hover:bg-leaf-100 transition-colors text-center">
+          <span class="text-2xl">👥</span>
+          <p class="text-sm font-medium text-leaf-900 mt-2">Kelola User</p>
+        </a>
+        <a href="/admin/produk" class="p-4 bg-mango-50 rounded-xl hover:bg-mango-100 transition-colors text-center">
+          <span class="text-2xl">📦</span>
+          <p class="text-sm font-medium text-leaf-900 mt-2">Approval Produk</p>
+        </a>
+        <a href="/admin/transaksi" class="p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors text-center">
+          <span class="text-2xl">💳</span>
+          <p class="text-sm font-medium text-leaf-900 mt-2">Transaksi</p>
+        </a>
+        <a href="/admin/sengketa" class="p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors text-center">
+          <span class="text-2xl">⚠️</span>
+          <p class="text-sm font-medium text-leaf-900 mt-2">Sengketa</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

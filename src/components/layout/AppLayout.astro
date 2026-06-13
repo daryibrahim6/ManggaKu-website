@@ -1,0 +1,18 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import { AppNavbar } from './AppNavbar'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description } = Astro.props
+---
+
+<BaseLayout title={title} description={description}>
+  <AppNavbar client:load />
+  <main class="min-h-screen pt-16">
+    <slot />
+  </main>
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../../components/layout/DashboardLayout.astro'
+import { ProductTable } from '../../../components/petani/ProductTable'
+---
+
+<DashboardLayout title="Kelola Produk" role="petani">
+  <ProductTable client:visible />
+</DashboardLayout>

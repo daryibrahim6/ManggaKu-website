@@ -1,0 +1,95 @@
+---
+export const prerender = false
+
+import AppLayout from '../../components/layout/AppLayout.astro'
+import { OrderTimeline } from '../../components/konsumen/OrderTimeline'
+---
+
+<AppLayout title="Detail Pesanan">
+  <div class="max-w-4xl mx-auto px-4 md:px-8 py-8">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="font-display text-3xl font-bold text-leaf-900">Detail Pesanan</h1>
+        <p class="text-sm text-leaf-700/70 mt-1">SM-2026-TEST1</p>
+      </div>
+      <span class="px-3 py-1 bg-amber-50 text-amber-500 rounded-full text-sm font-semibold">
+        Diproses
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Timeline -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50">
+          <h2 class="font-semibold text-leaf-900 mb-6">Status Pesanan</h2>
+          <OrderTimeline client:visible currentStep={2} />
+        </div>
+
+        <!-- Info Pengiriman -->
+        <div class="mt-6 bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50">
+          <h2 class="font-semibold text-leaf-900 mb-4">Info Pengiriman</h2>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-leaf-700/50">Kurir</span>
+              <p class="font-medium text-leaf-900">JNE Reguler</p>
+            </div>
+            <div>
+              <span class="text-leaf-700/50">No. Resi</span>
+              <p class="font-mono font-medium text-leaf-900">JNE1234567890</p>
+            </div>
+            <div>
+              <span class="text-leaf-700/50">Estimasi Tiba</span>
+              <p class="font-medium text-leaf-900">14-15 Jun 2026</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ringkasan -->
+      <div class="lg:col-span-1 space-y-4">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50">
+          <h2 class="font-semibold text-leaf-900 mb-4">Ringkasan Pesanan</h2>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-leaf-50 rounded-lg flex items-center justify-center text-sm">🥭</div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-leaf-900">Mangga Gedong Gincu</p>
+                <p class="text-xs text-leaf-700/50">2 kg × Rp 35.000</p>
+              </div>
+              <span class="font-mono text-sm text-leaf-900">Rp 70.000</span>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-leaf-100 space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-leaf-700/70">Subtotal</span>
+              <span class="font-mono text-leaf-900">Rp 70.000</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-leaf-700/70">Ongkir</span>
+              <span class="font-mono text-leaf-900">Rp 15.000</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-leaf-700/70">Platform fee</span>
+              <span class="font-mono text-leaf-900">Rp 2.100</span>
+            </div>
+            <div class="border-t border-leaf-100 pt-2 flex justify-between font-semibold">
+              <span class="text-leaf-900">Total</span>
+              <span class="font-mono text-mango-500">Rp 87.100</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aksi -->
+        <div class="space-y-2">
+          <button class="w-full py-3 bg-leaf-600 hover:bg-leaf-700 text-white font-semibold rounded-xl transition-colors">
+            Konfirmasi Diterima
+          </button>
+          <button class="w-full py-3 border border-red-200 text-red-600 font-semibold rounded-xl hover:bg-red-50 transition-colors">
+            Ajukan Komplain
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</AppLayout>

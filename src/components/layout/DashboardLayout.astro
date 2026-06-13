@@ -1,0 +1,21 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import { Sidebar } from './Sidebar'
+
+interface Props {
+  title: string
+  description?: string
+  role: 'petani' | 'umkm' | 'admin'
+}
+
+const { title, description, role } = Astro.props
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="min-h-screen pt-16">
+    <Sidebar {role} client:load />
+    <main class="ml-0 md:ml-64 p-4 md:p-8 transition-all duration-300">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import { SalesChart } from '../../components/petani/SalesChart'
+---
+
+<DashboardLayout title="Laporan Penjualan" role="petani">
+  <div class="space-y-6">
+    <h1 class="font-display text-2xl font-bold text-leaf-900">Laporan Penjualan</h1>
+
+    <SalesChart client:visible />
+
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50">
+      <h3 class="font-semibold text-leaf-900 mb-4">Ringkasan Bulan Ini</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 bg-leaf-50 rounded-xl">
+          <p class="text-xs text-leaf-700/50">Total Pendapatan</p>
+          <p class="font-mono text-xl font-bold text-leaf-900">Rp 5.800.000</p>
+        </div>
+        <div class="p-4 bg-leaf-50 rounded-xl">
+          <p class="text-xs text-leaf-700/50">Total Transaksi</p>
+          <p class="font-mono text-xl font-bold text-leaf-900">42</p>
+        </div>
+        <div class="p-4 bg-leaf-50 rounded-xl">
+          <p class="text-xs text-leaf-700/50">Produk Terlaris</p>
+          <p class="font-medium text-leaf-900">Mangga Gedong Gincu</p>
+        </div>
+        <div class="p-4 bg-leaf-50 rounded-xl">
+          <p class="text-xs text-leaf-700/50">Rata-rata per Order</p>
+          <p class="font-mono text-xl font-bold text-leaf-900">Rp 138.095</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

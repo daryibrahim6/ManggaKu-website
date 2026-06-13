@@ -1,0 +1,464 @@
+---
+export const prerender = false
+
+import MarketingLayout from '../../components/layout/MarketingLayout.astro'
+import { createClient } from '@supabase/supabase-js'
+
+const { slug } = Astro.params
+
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+)
+
+// Fetch product by slug
+const { data: product } = await supabase
+  .from('products')
+  .select('*')
+  .eq('slug', slug)
+  .eq('status', 'active')
+  .single()
+
+// Fetch seller profile
+let seller = null
+if (product) {
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('name, is_verified')
+    .eq('id', product.seller_id)
+    .single()
+  seller = profile
+
+  // Fetch petani/umkm profile for location
+  if (product.seller_role === 'petani') {
+    const { data: petaniProfile } = await supabase
+      .from('petani_profiles')
+      .select('store_name, store_slug, location')
+      .eq('user_id', product.seller_id)
+      .single()
+    if (petaniProfile) {
+      seller = { ...seller, ...petaniProfile }
+    }
+  } else {
+    const { data: umkmProfile } = await supabase
+      .from('umkm_profiles')
+      .select('business_name, business_slug, location')
+      .eq('user_id', product.seller_id)
+      .single()
+    if (umkmProfile) {
+      seller = { ...seller, ...umkmProfile }
+    }
+  }
+}
+
+// Fetch reviews
+const { data: reviews } = product
+  ? await supabase
+      .from('reviews')
+      .select('*, profiles(name, avatar_url)')
+      .eq('product_id', product.id)
+      .order('created_at', { ascending: false })
+      .limit(10)
+  : { data: [] }
+
+const categoryLabels: Record<string, string> = {
+  fresh: 'Segar',
+  olahan: 'Olahan',
+  bulk: 'Bulk',
+}
+
+const varietyLabels: Record<string, string> = {
+  gedong_gincu: 'Gedong Gincu',
+  harum_manis: 'Harum Manis',
+  cengkir: 'Cengkir',
+  golek: 'Golek',
+  manalagi: 'Manalagi',
+  other: 'Lainnya',
+}
+---
+
+<MarketingLayout title={product?.name ?? 'Detail Produk'}>
+  {product ? (
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+      <!-- Breadcrumb -->
+      <nav class="mb-6 text-sm text-neutral-500" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2">
+          <li><a href="/marketplace" class="hover:text-primary-600 transition-colors">Marketplace</a></li>
+          <li aria-hidden="true">›</li>
+          <li><a href="/marketplace" class="hover:text-primary-600 transition-colors">{categoryLabels[product.category] || product.category}</a></li>
+          <li aria-hidden="true">›</li>
+          <li class="text-neutral-900 font-medium" aria-current="page">{product.name}</li>
+        </ol>
+      </nav>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <!-- Foto Produk -->
+        <div>
+          <div class="aspect-square bg-neutral-50 rounded-2xl overflow-hidden border border-neutral-100">
+            <img
+              src={product.images?.[0] || ''}
+              alt={`Foto ${product.name}`}
+              class="w-full h-full object-cover"
+              width={600}
+              height={600}
+            />
+          </div>
+          {product.images && product.images.length > 1 && (
+            <div class="flex gap-2 mt-4">
+              {product.images.map((img: string, i: number) => (
+                <button
+                  type="button"
+                  class="w-16 h-16 rounded-lg overflow-hidden border-2 border-neutral-200 hover:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                  aria-label={`Foto produk ${i + 1}`}
+                >
+                  <img src={img} alt={`Thumbnail ${i + 1}`} class="w-full h-full object-cover" width={64} height={64} />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- Info Produk -->
+        <div>
+          <!-- Badge & Kategori -->
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-xs font-semibold">
+              {categoryLabels[product.category] || product.category}
+            </span>
+          </div>
+
+          <!-- Nama Produk -->
+          <h1 class="font-display text-3xl md:text-4xl font-bold text-neutral-900">{product.name}</h1>
+
+          <!-- Rating -->
+          <div class="flex items-center gap-2 mt-3">
+            <div class="flex items-center gap-1">
+              <span class="text-secondary-400" aria-hidden="true">★★★★★</span>
+              <span class="font-medium text-neutral-900">{product.rating}</span>
+            </div>
+            <span class="text-sm text-neutral-400">({product.review_count} ulasan)</span>
+          </div>
+
+          <!-- Harga -->
+          <div class="mt-4 font-mono text-3xl md:text-4xl font-medium text-secondary-600">
+            Rp {product.price.toLocaleString('id-ID')}
+            <span class="text-sm font-sans text-neutral-400">/{product.unit}</span>
+          </div>
+
+          <!-- Seller Card -->
+          <div class="mt-6 p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-1">
+                  <span class="font-semibold text-neutral-900">{seller?.name || 'Penjual'}</span>
+                  {seller?.is_verified && (
+                    <span class="text-primary-600 text-xs flex items-center gap-1">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                      </svg>
+                      Terverifikasi
+                    </span>
+                  )}
+                </div>
+                {seller?.location && (
+                  <span class="text-sm text-neutral-500">{seller.location}</span>
+                )}
+              </div>
+              {(seller?.store_slug || seller?.business_slug) && (
+                <a
+                  href={`/marketplace?seller=${seller.store_slug || seller.business_slug}`}
+                  class="text-sm font-medium text-primary-600 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg px-2 py-1 transition-colors"
+                >
+                  Lihat Toko
+                </a>
+              )}
+            </div>
+          </div>
+
+          <!-- Spesifikasi -->
+          <div class="mt-6 grid grid-cols-2 gap-3">
+            {product.variety && (
+              <div class="p-3 bg-white rounded-xl border border-neutral-100">
+                <span class="text-xs text-neutral-400 block">Varietas</span>
+                <p class="font-medium text-neutral-900">{varietyLabels[product.variety] || product.variety}</p>
+              </div>
+            )}
+            <div class="p-3 bg-white rounded-xl border border-neutral-100">
+              <span class="text-xs text-neutral-400 block">Kondisi</span>
+              <p class="font-medium text-neutral-900">{product.category === 'olahan' ? 'Olahan' : 'Segar'}</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-neutral-100">
+              <span class="text-xs text-neutral-400 block">Stok Tersisa</span>
+              <p class="font-medium text-neutral-900">{product.stock} {product.unit}</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-neutral-100">
+              <span class="text-xs text-neutral-400 block">Min. Order</span>
+              <p class="font-medium text-neutral-900">{product.min_order} {product.unit}</p>
+            </div>
+          </div>
+
+          <!-- Qty + Buttons -->
+          <div class="mt-6 space-y-3">
+            <div class="flex items-center gap-4">
+              <label for="quantity" class="text-sm font-medium text-neutral-900">Jumlah:</label>
+              <div class="flex items-center border border-neutral-200 rounded-xl">
+                <button
+                  type="button"
+                  id="qty-minus"
+                  class="px-3 py-2 text-neutral-600 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset rounded-l-xl"
+                  aria-label="Kurangi jumlah"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  id="quantity"
+                  value={product.min_order}
+                  min={product.min_order}
+                  max={product.stock}
+                  class="w-12 text-center font-medium border-0 focus:outline-none focus:ring-0"
+                  aria-label="Jumlah item"
+                />
+                <button
+                  type="button"
+                  id="qty-plus"
+                  class="px-3 py-2 text-neutral-600 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset rounded-r-xl"
+                  aria-label="Tambah jumlah"
+                >
+                  +
+                </button>
+              </div>
+              <span class="text-sm text-neutral-400">{product.unit}</span>
+            </div>
+
+            <button
+              id="add-to-cart"
+              type="button"
+              data-product-id={product.id}
+              class="w-full py-3 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold rounded-xl transition-all shadow-lg shadow-primary-500/25 hover:shadow-primary-500/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+            >
+              Tambah ke Keranjang
+            </button>
+            <button
+              id="buy-now"
+              type="button"
+              data-product-id={product.id}
+              class="w-full py-3 bg-neutral-900 hover:bg-neutral-800 text-white font-semibold rounded-xl transition-all shadow-lg shadow-neutral-900/25 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2"
+            >
+              Beli Sekarang
+            </button>
+          </div>
+
+          <!-- Deskripsi -->
+          <div class="mt-8">
+            <h2 class="font-semibold text-neutral-900 mb-3">Deskripsi Produk</h2>
+            <p class="text-sm text-neutral-600 leading-relaxed">
+              {product.description}
+            </p>
+          </div>
+
+          <!-- Ulasan -->
+          {reviews && reviews.length > 0 && (
+            <div class="mt-8">
+              <h2 class="font-semibold text-neutral-900 mb-4">Ulasan Pembeli</h2>
+              <div class="space-y-4">
+                {reviews.map((review) => {
+                  const profile = review.profiles
+                  const userName = String(profile?.name || 'User')
+                  const dicebearUrl = 'https://api.dicebear.com/9.x/avataaars/svg?seed=' + encodeURIComponent(userName) + '&backgroundColor=b6e3f4'
+                  return (
+                    <div class="p-4 bg-white rounded-xl border border-neutral-100">
+                      <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                          <img
+                            src={dicebearUrl}
+                            alt={userName}
+                            class="w-8 h-8 rounded-full object-cover bg-primary-50"
+                            width={32}
+                            height={32}
+                          />
+                          <span class="font-medium text-neutral-900 text-sm">{profile?.name || 'Anonymous'}</span>
+                        </div>
+                        <time class="text-xs text-neutral-400">
+                          {new Date(review.created_at as string).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </time>
+                      </div>
+                      <div class="flex items-center gap-1 mb-2">
+                        <span class="text-secondary-400 text-sm" aria-hidden="true">★★★★★</span>
+                      </div>
+                      <p class="text-sm text-neutral-600">
+                        {review.comment}
+                      </p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('astro:page-load', () => {
+        const addBtn = document.getElementById('add-to-cart')
+        const qtyInput = document.getElementById('quantity') as HTMLInputElement
+        const qtyMinus = document.getElementById('qty-minus')
+        const qtyPlus = document.getElementById('qty-plus')
+
+        if (qtyMinus && qtyInput) {
+          qtyMinus.addEventListener('click', () => {
+            const min = parseInt(qtyInput.min || '1')
+            const current = parseInt(qtyInput.value || '1')
+            if (current > min) qtyInput.value = String(current - 1)
+          })
+        }
+
+        if (qtyPlus && qtyInput) {
+          qtyPlus.addEventListener('click', () => {
+            const max = parseInt(qtyInput.max || '999')
+            const current = parseInt(qtyInput.value || '1')
+            if (current < max) qtyInput.value = String(current + 1)
+          })
+        }
+
+        if (addBtn) {
+          addBtn.addEventListener('click', async () => {
+            const productId = addBtn.getAttribute('data-product-id')
+            if (!productId) return
+
+            // Fetch product from Supabase
+            const { createClient } = await import('@supabase/supabase-js')
+            const supabase = createClient(
+              import.meta.env.PUBLIC_SUPABASE_URL,
+              import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+            )
+
+            const { data: product } = await supabase
+              .from('products')
+              .select('*')
+              .eq('id', productId)
+              .single()
+
+            if (!product) return
+
+            const quantity = parseInt(qtyInput?.value || '1')
+
+            const { useCartStore } = await import('../../stores/cartStore')
+            const addItem = useCartStore.getState().addItem
+            addItem({
+              id: product.id,
+              slug: product.slug,
+              sellerId: product.seller_id,
+              sellerRole: product.seller_role,
+              sellerName: seller?.name || '',
+              sellerVerified: seller?.is_verified || false,
+              name: product.name,
+              variety: product.variety,
+              category: product.category,
+              description: product.description || '',
+              price: product.price,
+              unit: product.unit,
+              stock: product.stock,
+              minOrder: product.min_order,
+              images: product.images || [],
+              rating: Number(product.rating),
+              reviewCount: product.review_count,
+              status: product.status,
+              createdAt: product.created_at,
+              updatedAt: product.updated_at,
+            }, quantity)
+
+            try {
+              const cartData = localStorage.getItem('manggaku-cart')
+              const cart = cartData ? JSON.parse(cartData) : null
+              const items = cart?.state?.items || []
+              const total = items.reduce((acc: number, item: { quantity: number }) => acc + item.quantity, 0)
+              const badge = document.getElementById('cart-badge')
+              if (badge) {
+                if (total > 0) {
+                  badge.textContent = total.toString()
+                  badge.classList.remove('hidden')
+                } else {
+                  badge.classList.add('hidden')
+                }
+              }
+            } catch {}
+
+            const originalText = addBtn.textContent
+            addBtn.textContent = '✓ Ditambahkan!'
+            addBtn.classList.add('bg-green-500')
+            setTimeout(() => {
+              addBtn.textContent = originalText
+              addBtn.classList.remove('bg-green-500')
+            }, 1500)
+          })
+        }
+
+        const buyBtn = document.getElementById('buy-now')
+        if (buyBtn) {
+          buyBtn.addEventListener('click', async () => {
+            const productId = buyBtn.getAttribute('data-product-id')
+            if (!productId) return
+
+            const { createClient } = await import('@supabase/supabase-js')
+            const supabase = createClient(
+              import.meta.env.PUBLIC_SUPABASE_URL,
+              import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+            )
+
+            const { data: product } = await supabase
+              .from('products')
+              .select('*')
+              .eq('id', productId)
+              .single()
+
+            if (!product) return
+
+            const quantity = parseInt(qtyInput?.value || '1')
+
+            const { useCartStore } = await import('../../stores/cartStore')
+            const addItem = useCartStore.getState().addItem
+            addItem({
+              id: product.id,
+              slug: product.slug,
+              sellerId: product.seller_id,
+              sellerRole: product.seller_role,
+              sellerName: seller?.name || '',
+              sellerVerified: seller?.is_verified || false,
+              name: product.name,
+              variety: product.variety,
+              category: product.category,
+              description: product.description || '',
+              price: product.price,
+              unit: product.unit,
+              stock: product.stock,
+              minOrder: product.min_order,
+              images: product.images || [],
+              rating: Number(product.rating),
+              reviewCount: product.review_count,
+              status: product.status,
+              createdAt: product.created_at,
+              updatedAt: product.updated_at,
+            }, quantity)
+
+            window.location.href = '/checkout'
+          })
+        }
+      })
+    </script>
+  ) : (
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 text-center">
+      <h1 class="font-display text-2xl font-bold text-neutral-900 mb-4">Produk Tidak Ditemukan</h1>
+      <p class="text-neutral-500 mb-6">Produk yang Anda cari tidak tersedia atau telah dihapus.</p>
+      <a href="/marketplace" class="inline-flex items-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors">
+        Kembali ke Marketplace
+      </a>
+    </div>
+  )}
+</MarketingLayout>

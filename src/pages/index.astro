@@ -1,11 +1,18 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import MarketingLayout from '../components/layout/MarketingLayout.astro'
+import { HeroSection } from '../components/marketing/HeroSection'
+import { StatsBar } from '../components/marketing/StatsBar'
+import { HowItWorks } from '../components/marketing/HowItWorks'
+import { FeaturesGrid } from '../components/marketing/FeaturesGrid'
+import { TestimoniSection } from '../components/marketing/TestimoniSection'
+import { CTASection } from '../components/marketing/CTASection'
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MarketingLayout title="Beranda">
+  <HeroSection client:only="react" />
+  <StatsBar client:visible />
+  <HowItWorks client:visible />
+  <FeaturesGrid client:visible />
+  <TestimoniSection client:visible />
+  <CTASection client:visible />
+</MarketingLayout>

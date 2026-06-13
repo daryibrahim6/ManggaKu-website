@@ -1,0 +1,59 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../../components/layout/DashboardLayout.astro'
+---
+
+<DashboardLayout title="Input Pengiriman" role="petani">
+  <div class="max-w-2xl">
+    <h1 class="font-display text-2xl font-bold text-leaf-900 mb-6">Input Pengiriman</h1>
+
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50 space-y-6">
+      <div>
+        <p class="text-sm text-leaf-700/50 mb-1">Nomor Pesanan</p>
+        <p class="font-mono font-medium text-leaf-900">SM-2026-ABC12</p>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900" for="courier">Kurir</label>
+        <select id="courier" class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm">
+          <option value="">Pilih kurir</option>
+          <option value="jne">JNE</option>
+          <option value="jnt">J&T</option>
+          <option value="sicepat">SiCepat</option>
+        </select>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900" for="resi">Nomor Resi</label>
+        <input
+          id="resi"
+          type="text"
+          class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm"
+          placeholder="Masukkan nomor resi"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900" for="notes">Catatan (opsional)</label>
+        <textarea
+          id="notes"
+          rows="2"
+          class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm resize-none"
+          placeholder="Catatan pengiriman..."
+        ></textarea>
+      </div>
+
+      <div class="flex gap-3 pt-4">
+        <a href="/petani/pesanan" class="flex-1">
+          <button class="w-full py-3 border border-leaf-200 text-leaf-700 font-semibold rounded-xl hover:bg-leaf-50 transition-colors">
+            Batal
+          </button>
+        </a>
+        <button class="flex-1 py-3 bg-mango-500 hover:bg-mango-600 text-white font-semibold rounded-xl transition-colors">
+          Konfirmasi Pengiriman
+        </button>
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

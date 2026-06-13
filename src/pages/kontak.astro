@@ -1,0 +1,103 @@
+---
+import MarketingLayout from '../components/layout/MarketingLayout.astro'
+---
+
+<MarketingLayout title="Kontak">
+  <section class="py-16 md:py-24">
+    <div class="max-w-3xl mx-auto px-4 md:px-8">
+      <h1 class="font-display text-4xl md:text-5xl font-bold text-neutral-900 text-center">
+        Hubungi Kami
+      </h1>
+      <p class="mt-4 text-center text-neutral-500 text-lg">
+        Ada pertanyaan? Kami siap membantu.
+      </p>
+
+      <div class="mt-12 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-neutral-100">
+        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Pesan berhasil dikirim! (Demo)')">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-neutral-900" for="name">Nama</label>
+              <input
+                id="name"
+                type="text"
+                required
+                class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                placeholder="Nama kamu"
+              />
+            </div>
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-neutral-900" for="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                required
+                class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                placeholder="contoh@email.com"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-neutral-900" for="subject">Subjek</label>
+            <input
+              id="subject"
+              type="text"
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+              placeholder="Perihal pesan"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-neutral-900" for="message">Pesan</label>
+            <textarea
+              id="message"
+              rows="5"
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 resize-none"
+              placeholder="Tuliskan pesanmu di sini..."
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3 text-base font-semibold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 min-h-[44px]"
+          >
+            Kirim Pesan
+          </button>
+        </form>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div>
+          <div class="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-neutral-900 mb-1">Email</h3>
+          <p class="text-sm text-neutral-500">hello@manggaku.id</p>
+        </div>
+        <div>
+          <div class="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-neutral-900 mb-1">Lokasi</h3>
+          <p class="text-sm text-neutral-500">Indramayu, Jawa Barat</p>
+        </div>
+        <div>
+          <div class="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-neutral-900 mb-1">WhatsApp</h3>
+          <p class="text-sm text-neutral-500">+62 812-xxxx-xxxx</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro'
+---
+
+<BaseLayout title="Daftar">
+  <div class="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-primary-50/50 via-white to-secondary-50/30">
+    <div class="w-full max-w-2xl">
+      <div class="text-center mb-8">
+        <a href="/" class="inline-flex items-center gap-2 font-display font-bold text-2xl text-primary-600">
+          <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center shadow-lg shadow-primary-500/30">
+            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          ManggaKu
+        </a>
+        <h1 class="mt-4 font-display text-3xl font-bold text-neutral-900">
+          Buat Akun Baru
+        </h1>
+        <p class="mt-2 text-neutral-500">
+          Pilih peran kamu untuk memulai
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-neutral-100 p-6 md:p-8">
+        <div id="register-root"></div>
+      </div>
+
+      <p class="mt-6 text-center text-sm text-neutral-500">
+        Sudah punya akun?{' '}
+        <a href="/auth/masuk" class="font-medium text-primary-600 hover:text-primary-700 transition-colors">
+          Masuk
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    import React from 'react'
+    import ReactDOM from 'react-dom/client'
+    import { RegisterWizard } from '../../components/auth/RegisterWizard'
+
+    const root = document.getElementById('register-root')
+    if (root) {
+      ReactDOM.createRoot(root).render(React.createElement(RegisterWizard))
+    }
+  </script>
+</BaseLayout>

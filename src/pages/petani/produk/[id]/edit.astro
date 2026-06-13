@@ -1,0 +1,24 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../../../components/layout/DashboardLayout.astro'
+import { ProductForm } from '../../../../components/petani/ProductForm'
+---
+
+<DashboardLayout title="Edit Produk" role="petani">
+  <div class="max-w-2xl">
+    <h1 class="font-display text-2xl font-bold text-leaf-900 mb-6">Edit Produk</h1>
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50">
+      <ProductForm client:load isEdit initialData={{
+        name: 'Mangga Gedong Gincu Segar',
+        variety: 'gedong_gincu',
+        category: 'fresh',
+        description: 'Mangga gedong gincu pilihan dari kebun Indramayu.',
+        price: 35000,
+        unit: 'kg',
+        stock: 100,
+        minOrder: 1,
+      }} />
+    </div>
+  </div>
+</DashboardLayout>
