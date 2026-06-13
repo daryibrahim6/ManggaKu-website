@@ -13,13 +13,12 @@ export function HeroSection() {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary-200/20 rounded-full blur-3xl" />
 
       {/* Mobile: stacked layout */}
-      <div className="relative md:hidden w-full h-full flex flex-col justify-between px-4 py-4 overflow-hidden">
-        {/* Top: Text */}
+      <div className="relative md:hidden w-full h-full flex flex-col justify-center px-4 py-6 gap-5 overflow-hidden">
+        {/* Text */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex-shrink-0"
         >
           <motion.span
             initial={{ opacity: 0, y: -10 }}
@@ -44,13 +43,13 @@ export function HeroSection() {
             Beli mangga Indramayu berkualitas langsung dari petani.
           </p>
 
-          <div className="mt-4 flex flex-col gap-2.5">
+          <div className="mt-4 flex gap-3">
             <motion.a
               href="/marketplace"
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl shadow-lg shadow-primary-500/25 min-h-[44px]"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl shadow-lg shadow-primary-500/25 min-h-[44px]"
             >
-              Beli Mangga Sekarang
+              Beli Mangga
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -58,64 +57,64 @@ export function HeroSection() {
             <motion.a
               href="/cara-kerja"
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-primary-700 bg-white border-2 border-primary-200 rounded-xl min-h-[44px]"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-primary-700 bg-white border-2 border-primary-200 rounded-xl min-h-[44px]"
             >
-              Lihat Cara Kerja
+              Cara Kerja
             </motion.a>
           </div>
         </motion.div>
 
-        {/* Bottom: Image + stats */}
+        {/* Image */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex-shrink-0 relative -mx-4"
+          className="relative flex-1 min-h-0"
         >
-          <div className="relative rounded-t-[2rem] overflow-hidden h-[220px]">
+          <div className="relative rounded-2xl overflow-hidden h-full shadow-xl shadow-primary-900/10">
             <img
-              src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&h=500&fit=crop"
+              src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&h=600&fit=crop"
               alt="Mangga segar Indramayu"
               className="w-full h-full object-cover"
               width={800}
-              height={500}
+              height={600}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-          {/* Stats overlay on image */}
-          <div className="absolute bottom-3 left-4 right-4 flex items-center gap-3">
-            <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-lg">
-              <span className="font-display text-sm font-bold text-primary-600">150+</span>
-              <span className="text-[10px] text-neutral-500">Petani</span>
+            {/* Stats on image */}
+            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
+              <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-lg px-2.5 py-1 shadow-lg">
+                <span className="font-display text-xs font-bold text-primary-600">150+</span>
+                <span className="text-[9px] text-neutral-500">Petani</span>
+              </div>
+              <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-lg px-2.5 py-1 shadow-lg">
+                <span className="font-display text-xs font-bold text-secondary-500">500+</span>
+                <span className="text-[9px] text-neutral-500">Produk</span>
+              </div>
+              <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-lg px-2.5 py-1 shadow-lg">
+                <span className="font-display text-xs font-bold text-primary-600">25+</span>
+                <span className="text-[9px] text-neutral-500">Kota</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-lg">
-              <span className="font-display text-sm font-bold text-secondary-500">500+</span>
-              <span className="text-[10px] text-neutral-500">Produk</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-lg">
-              <span className="font-display text-sm font-bold text-primary-600">25+</span>
-              <span className="text-[10px] text-neutral-500">Kota</span>
-            </div>
-          </div>
 
-          {/* Floating card */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.3 }}
-            className="absolute -top-3 right-4 bg-white rounded-xl shadow-xl p-2.5 flex items-center gap-2 border border-neutral-100"
-          >
-            <div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <div>
-              <p className="font-semibold text-neutral-900 text-xs">100% Segar</p>
-              <p className="text-[10px] text-neutral-400">Dipanen saat matang</p>
-            </div>
-          </motion.div>
+            {/* Floating card */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
+              className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-2 flex items-center gap-2 border border-neutral-100"
+            >
+              <div className="w-7 h-7 bg-gradient-to-br from-primary-400 to-primary-600 rounded-lg flex items-center justify-center">
+                <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-semibold text-neutral-900 text-[11px] leading-tight">100% Segar</p>
+                <p className="text-[9px] text-neutral-400 leading-tight">Dipanen saat matang</p>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
 

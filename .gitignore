@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # vercel
 .vercel/
+
+# local docs (not for github)
+prd.md
+intruksi_agen.md
