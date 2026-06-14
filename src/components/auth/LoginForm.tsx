@@ -35,7 +35,14 @@ export function LoginForm() {
         return
       }
       toast.success('Login berhasil!')
-      window.location.href = '/marketplace'
+      const currentUser = useAuthStore.getState().user
+      const roleRedirectMap: Record<string, string> = {
+        konsumen: '/marketplace',
+        petani: '/petani/dashboard',
+        umkm: '/umkm/dashboard',
+        admin: '/admin/dashboard',
+      }
+      window.location.href = roleRedirectMap[currentUser?.role ?? 'konsumen'] ?? '/marketplace'
     } catch {
       toast.error('Terjadi kesalahan. Coba lagi.')
     } finally {

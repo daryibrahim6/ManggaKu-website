@@ -80,12 +80,19 @@ export function RegisterForm({ role: initialRole, onSuccess }: RegisterFormProps
     setIsLoading(true)
     try {
       const activeRole = getRole()
+      const extraFields = activeRole === 'petani'
+        ? { village: (data as PetaniFormData).village, gardenSize: (data as PetaniFormData).gardenSize }
+        : activeRole === 'umkm'
+          ? { businessName: (data as UmkmFormData).businessName, productType: (data as UmkmFormData).productType }
+          : {}
+
       const { error } = await register({
         name: data.name,
         email: data.email,
         phone: data.phone,
         password: data.password,
         role: activeRole as UserRole,
+        ...extraFields,
       })
       if (error) {
         toast.error(error.includes('already registered') ? 'Email sudah terdaftar.' : error)

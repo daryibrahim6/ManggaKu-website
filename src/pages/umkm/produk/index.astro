@@ -1,0 +1,10 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../../components/layout/DashboardLayout.astro'
+import { ProductTable } from '../../../components/umkm/ProductTable'
+---
+
+<DashboardLayout title="Kelola Produk Olahan" role="umkm">
+  <ProductTable client:visible />
+</DashboardLayout>

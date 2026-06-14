@@ -1,0 +1,62 @@
+---
+export const prerender = false
+
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+---
+
+<DashboardLayout title="Profil UMKM" role="umkm">
+  <div class="max-w-2xl">
+    <h1 class="font-display text-2xl font-bold text-leaf-900 mb-6">Profil UMKM</h1>
+
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-leaf-100/50 space-y-4">
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900">Nama Usaha</label>
+        <input
+          type="text"
+          value="Bu Ratna Olahan Mangga"
+          class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900">Jenis Produk</label>
+        <input
+          type="text"
+          value="Keripik mangga, sambal mangga, dodol mangga, jus mangga"
+          class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900">Lokasi</label>
+        <input
+          type="text"
+          value="Indramayu, Jawa Barat"
+          class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900">Sertifikasi</label>
+        <textarea
+          rows="3"
+          class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm resize-none"
+          placeholder="Daftar sertifikasi yang dimiliki..."
+        >P-IRT 2093201010035-22, Halal MUI 1506000000001</textarea>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-leaf-900">Deskripsi UMKM</label>
+        <textarea
+          rows="3"
+          class="w-full px-4 py-2.5 rounded-xl border border-leaf-200 text-sm resize-none"
+          placeholder="Deskripsi usaha..."
+        >Usaha olahan mangga yang berdiri sejak 2020. Memproduksi berbagai produk olahan mangga berkualitas tinggi dari bahan baku pilihan.</textarea>
+      </div>
+
+      <button class="w-full py-3 bg-mango-500 hover:bg-mango-600 text-white font-semibold rounded-xl transition-colors">
+        Simpan Perubahan
+      </button>
+    </div>
+  </div>
+</DashboardLayout>

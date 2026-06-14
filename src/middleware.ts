@@ -1,0 +1,67 @@
+import { defineMiddleware } from 'astro:middleware'
+import { createServerClient } from '@supabase/ssr'
+import type { UserRole } from './types'
+
+const roleRedirects: Record<string, string> = {
+  konsumen: '/marketplace',
+  petani: '/petani/dashboard',
+  umkm: '/umkm/dashboard',
+  admin: '/admin/dashboard',
+}
+
+const protectedPatterns = ['/petani/', '/umkm/', '/admin/', '/checkout', '/keranjang']
+const authPatterns = ['/auth/masuk', '/auth/daftar']
+
+export const onRequest = defineMiddleware(async ({ locals, url, cookies, redirect }, next) => {
+  const supabase = createServerClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: {
+        getAll() {
+          return cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookies.set(name, value, options)
+          })
+        },
+      },
+    }
+  )
+
+  const { data: { session } } = await supabase.auth.getSession()
+  locals.session = session
+  locals.user = session?.user ?? null
+
+  const pathname = url.pathname
+
+  const isProtected = protectedPatterns.some(p => pathname.startsWith(p))
+
+  if (isProtected && !session) {
+    return redirect('/auth/masuk')
+  }
+
+  const isAuthRoute = authPatterns.some(p => pathname.startsWith(p))
+
+  if (isAuthRoute && session) {
+    const role = (session.user?.user_metadata?.role as UserRole) || 'konsumen'
+    return redirect(roleRedirects[role] || '/marketplace')
+  }
+
+  if (session) {
+    const role = (session.user?.user_metadata?.role as UserRole) || 'konsumen'
+
+    if (pathname.startsWith('/petani/') && role !== 'petani') {
+      return redirect(roleRedirects[role] || '/marketplace')
+    }
+    if (pathname.startsWith('/umkm/') && role !== 'umkm') {
+      return redirect(roleRedirects[role] || '/marketplace')
+    }
+    if (pathname.startsWith('/admin/') && role !== 'admin') {
+      return redirect(roleRedirects[role] || '/marketplace')
+    }
+  }
+
+  return next()
+})

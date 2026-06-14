@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro'
-import { OTPInput } from '../../components/auth/OTPInput'
+import { VerificationHandler } from '../../components/auth/VerificationHandler'
 ---
 
 <BaseLayout title="Verifikasi OTP">
@@ -18,17 +18,15 @@ import { OTPInput } from '../../components/auth/OTPInput'
           </span>
         </a>
         <h1 class="mt-6 font-display text-3xl font-bold text-neutral-900">
-          Verifikasi Nomor HP
+          Verifikasi Email
         </h1>
         <p class="mt-2 text-neutral-500">
-          Kami telah mengirim kode OTP ke nomor HP kamu
+          Kami telah mengirim kode OTP ke email kamu
         </p>
       </div>
 
       <div class="bg-white rounded-2xl shadow-sm border border-neutral-100 p-6 md:p-8">
-        <OTPInput client:load onSubmit={(otp) => {
-          window.location.href = '/marketplace'
-        }} />
+        <VerificationHandler client:load />
       </div>
     </div>
   </div>

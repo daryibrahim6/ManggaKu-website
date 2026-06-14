@@ -5,6 +5,7 @@ import {
   ChevronLeft, Menu, LogOut
 } from 'lucide-react'
 import { cn } from '../../lib/utils'
+import { useAuthStore } from '../../stores/authStore'
 
 interface SidebarProps {
   role: 'petani' | 'umkm' | 'admin'
@@ -82,13 +83,16 @@ export function Sidebar({ role }: SidebarProps) {
       </nav>
 
       <div className="absolute bottom-0 left-0 right-0 p-2 border-t border-leaf-100">
-        <a
-          href="/"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-leaf-700/70 hover:bg-leaf-50 hover:text-leaf-700 transition-colors"
+        <button
+          onClick={async () => {
+            await useAuthStore.getState().logout()
+            window.location.href = '/auth/masuk'
+          }}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-leaf-700/70 hover:bg-leaf-50 hover:text-leaf-700 transition-colors w-full"
         >
           <LogOut className="w-5 h-5 shrink-0" />
           {!isCollapsed && <span>Keluar</span>}
-        </a>
+        </button>
       </div>
     </aside>
   )

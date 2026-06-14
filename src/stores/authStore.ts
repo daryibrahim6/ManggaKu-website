@@ -15,6 +15,10 @@ interface AuthStore {
     phone: string
     password: string
     role: UserRole
+    village?: string
+    gardenSize?: string
+    businessName?: string
+    productType?: string
   }) => Promise<{ error: string | null }>
   login: (email: string, password: string) => Promise<{ error: string | null }>
   initialize: () => Promise<void>
